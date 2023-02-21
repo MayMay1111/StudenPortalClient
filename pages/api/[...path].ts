@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import httpProxy from 'http-proxy'
 import dotenv from 'dotenv'
+import Cookies from 'cookies';
 
 dotenv.config();
 
@@ -15,8 +16,23 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  req.headers.cookie = ``;
-  proxy.web(req,res,{target:"http://localhost:6969", changeOrigin: true, selfHandleResponse: false});
-  console.log(process.env.SERVER)
+
+  return new Promise((resolve, reject) => {
+    const cookie = new Cookies(req,res)
+    const accessToken = cookie.get('accessToken')
+    if(accessToken){
+      req.headers.Authorization = `Bearer ${accessToken}`
+    }
+
+    req.headers.cookie = ``;
+
+    proxy.web(req,res,{target:"http://127.0.0.1:6869", changeOrigin: true, selfHandleResponse: false});
+    
+
+    proxy.once('proxyRes', () => {
+      resolve(true)
+    })
+  })
+  
 
 }
