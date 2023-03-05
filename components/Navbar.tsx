@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import * as StyleVar from './Style'
 import { ReactNode } from 'react';
+import { ChildrenProps } from '@/model/props';
 
 const settings = ['Profile', 'Account', 'Logout'];
 const pageOptions = ['Trang chủ', 'Tin tức']
@@ -21,10 +22,6 @@ const pageOptions = ['Trang chủ', 'Tin tức']
 interface userLoginState {
   name:string;
   photoURL:string;
-}
-
-interface Props {
-  children: ReactNode,
 }
 
 const NavbarLogin = (user?: userLoginState | null) => {
@@ -76,7 +73,7 @@ const NavbarLogin = (user?: userLoginState | null) => {
 }
 
 
-function ResponsiveAppBar({ children }: Props) {
+function ResponsiveAppBar({ children }: ChildrenProps) {
   return (
     <Box sx={{
       width:'calc(100vw - 15rem)',

@@ -6,6 +6,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import ResponsiveSideBar from "@/components/Sidebar";
 import ResponsiveAppBar from "@/components/Navbar";
+import { Auth } from "@/components/auth/auth";
 
 
 interface lessonInterface {
@@ -105,95 +106,97 @@ const Schedule = () => {
   }
 
   return (
-    <Box sx={{
-      display: 'flex',
-      overflow: 'hidden'
-    }}>
-      <ResponsiveSideBar />
-      <ResponsiveAppBar>
-        <Box sx={{
-          width: '100%',
-          background: StyleVar.white,
-          height: '50px',
-          display: 'flex',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-          padding: '0 20px',
-          gap: '20px',
-        }}>
-          <Button sx={{
-            border: `1px solid ${StyleVar.heavyBlue}`,
-            fontWeight: 600,
-            fontFamily: 'monospace',
-            ":active": {
-              background: StyleVar.heavyBlue,
-              color: StyleVar.lightWhite,
-            }
-          }} onClick={() => setFirstDayOfWeek(new Date())}>Present</Button>
-          <IconButton onClick={() => setFirstDayOfWeek(new Date(firstDayOfWeek.getTime() - 60 * 60 * 24 * 1000 * 7))}>
-            <KeyboardArrowLeftIcon />
-          </IconButton>
-          <IconButton onClick={() => setFirstDayOfWeek(new Date(firstDayOfWeek.getTime() + 60 * 60 * 24 * 1000 * 7))}>
-            <KeyboardArrowRightIcon />
-          </IconButton>
-        </Box>
-        <TableContainer>
-          <Table sx={{
-            background: StyleVar.tableTheme,
+    <Auth>
+      <Box sx={{
+        display: 'flex',
+        overflow: 'hidden'
+      }}>
+        <ResponsiveSideBar />
+        <ResponsiveAppBar>
+          <Box sx={{
+            width: '100%',
+            background: StyleVar.white,
+            height: '50px',
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            padding: '0 20px',
+            gap: '20px',
           }}>
-            <TableHead>
-              <TableRow>
-                {tableHeader.map((header, index) => (
-                  <TableCell width={200} align="center" key={index} sx={{
-                    border: `1px solid ${StyleVar.tableBorder}`
-                  }}>
-                    <Box>{header}</Box>
-                    <Box>{index !== 0 && getDayByIndex(index - 1)}</Box>
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {getWeekLesson.map((timeLessons, index) => {
-                return (
-                  <TableRow key={index}>
-                    <TableCell align="center" sx={{
-                      border: `1px solid ${StyleVar.tableBorder}`,
+            <Button sx={{
+              border: `1px solid ${StyleVar.heavyBlue}`,
+              fontWeight: 600,
+              fontFamily: 'monospace',
+              ":active": {
+                background: StyleVar.heavyBlue,
+                color: StyleVar.lightWhite,
+              }
+            }} onClick={() => setFirstDayOfWeek(new Date())}>Present</Button>
+            <IconButton onClick={() => setFirstDayOfWeek(new Date(firstDayOfWeek.getTime() - 60 * 60 * 24 * 1000 * 7))}>
+              <KeyboardArrowLeftIcon />
+            </IconButton>
+            <IconButton onClick={() => setFirstDayOfWeek(new Date(firstDayOfWeek.getTime() + 60 * 60 * 24 * 1000 * 7))}>
+              <KeyboardArrowRightIcon />
+            </IconButton>
+          </Box>
+          <TableContainer>
+            <Table sx={{
+              background: StyleVar.tableTheme,
+            }}>
+              <TableHead>
+                <TableRow>
+                  {tableHeader.map((header, index) => (
+                    <TableCell width={200} align="center" key={index} sx={{
+                      border: `1px solid ${StyleVar.tableBorder}`
                     }}>
-                      {timeLessons.time}
+                      <Box>{header}</Box>
+                      <Box>{index !== 0 && getDayByIndex(index - 1)}</Box>
                     </TableCell>
-                    {timeLessons.lessons.map((lesson, index) => (
-                      <TableCell sx={{
-                        background: '#fff',
-                        border: '1px solid #f4f4f7',
-                      }} key={index} rowSpan={lesson?.numberOfPeriod}>
-                        <Box sx={lesson && {
-                          background: '#dfddf7',
-                          height: lesson.numberOfPeriod * 45 + 'px',
-                          padding: '5px 15px',
-                          border: '1px solid #babbc4',
-                          borderRadius: '5px',
-                          position: 'relative',
-                          ":before": {
-                            content: '""',
-                            height: 'calc(100% - 10px)',
-                            width: '5px',
-                            left: '4px',
-                            position: 'absolute',
-                            background: '#fff',
-                            borderRadius: '2px',
-                          }
-                        }}>{lesson?.name}</Box>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {getWeekLesson.map((timeLessons, index) => {
+                  return (
+                    <TableRow key={index}>
+                      <TableCell align="center" sx={{
+                        border: `1px solid ${StyleVar.tableBorder}`,
+                      }}>
+                        {timeLessons.time}
                       </TableCell>
-                    ))}
-                  </TableRow>
-                )
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </ResponsiveAppBar>
-    </Box>
+                      {timeLessons.lessons.map((lesson, index) => (
+                        <TableCell sx={{
+                          background: '#fff',
+                          border: '1px solid #f4f4f7',
+                        }} key={index} rowSpan={lesson?.numberOfPeriod}>
+                          <Box sx={lesson && {
+                            background: '#dfddf7',
+                            height: lesson.numberOfPeriod * 45 + 'px',
+                            padding: '5px 15px',
+                            border: '1px solid #babbc4',
+                            borderRadius: '5px',
+                            position: 'relative',
+                            ":before": {
+                              content: '""',
+                              height: 'calc(100% - 10px)',
+                              width: '5px',
+                              left: '4px',
+                              position: 'absolute',
+                              background: '#fff',
+                              borderRadius: '2px',
+                            }
+                          }}>{lesson?.name}</Box>
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </ResponsiveAppBar>
+      </Box>
+    </Auth>
   )
 }
 

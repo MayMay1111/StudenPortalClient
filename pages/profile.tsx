@@ -5,33 +5,36 @@ import * as StyleVar from '../components/Style';
 import { Avatar } from '@mui/material';
 import ResponsiveAppBar from '@/components/Navbar';
 import ResponsiveSideBar from '@/components/Sidebar';
+import { Auth } from '@/components/auth/auth';
 
 const Profile = () => {
     return (
-        <Box sx={{
-            display: 'flex',
-            overflow: 'hidden'
-        }}>
-            <ResponsiveSideBar />
-            <ResponsiveAppBar>
-                <Box sx={{
-                    width: "100%",
-                    background: 'yellow',
-                    color: '#000',
-                }}>
+        <Auth>
+            <Box sx={{
+                display: 'flex',
+                overflow: 'hidden'
+            }}>
+                <ResponsiveSideBar />
+                <ResponsiveAppBar>
                     <Box sx={{
-                        background: StyleVar.white,
-                        display: 'flex',
-
+                        width: "100%",
+                        background: 'yellow',
+                        color: '#000',
                     }}>
-                        <Avatar sx={{
-                            width: '200px',
-                            height: '200px',
-                        }}></Avatar>
+                        <Box sx={{
+                            background: StyleVar.white,
+                            display: 'flex',
+
+                        }}>
+                            <Avatar sx={{
+                                width: '200px',
+                                height: '200px',
+                            }}></Avatar>
+                        </Box>
                     </Box>
-                </Box>
-            </ResponsiveAppBar>
-        </Box>
+                </ResponsiveAppBar>
+            </Box>
+        </Auth>
     )
 }
 

@@ -7,7 +7,8 @@ import Cookies from 'cookies';
 dotenv.config();
 
 type Data = {
-  message: string
+  message: string,
+  err?: string
 }
 
 export const config = {
@@ -39,7 +40,11 @@ export default function handler(
 
         proxyReq.on('end', () => {
             try{
-                const {accessToken, expiredAt} = JSON.parse(body);
+                const {accessToken, expiredAt, err} = JSON.parse(body);
+
+                if(err){
+                  throw new Error(err)
+                }
 
                 const cookies = new Cookies(req,res, {secure: process.env.NODE_ENV !== 'development'});
                 cookies.set('accessToken',accessToken,{
@@ -49,9 +54,8 @@ export default function handler(
                 });
 
                 (res as NextApiResponse).status(200).json({message:'success'})
-            } catch(error){
-              console.log(error);
-                (res as NextApiResponse).status(504).json({message:'loggin unsuccessfully',error:error})
+            } catch(err){
+                (res as NextApiResponse).status(504).json({message:'loggin unsuccessfully',error:(err as Error).message})
             }
 
             resolve(true)
